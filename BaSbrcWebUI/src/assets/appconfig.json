@@ -1,0 +1,6 @@
+{
+    "apiBaseUrl": "https://basbrc.stofberg.co.uk/",
+    "apiBaseUrl_dev": "https://localhost:44317/",
+    "fpApiBaseUrl": "https://localhost:44317/",
+    "autoLogout": 12
+  }

@@ -1,0 +1,82 @@
+<div class="card">
+  <div class="container">
+    <h3>Bon Accord Book</h3>
+    <div *ngIf="_booking == null">
+      <h4>Select a session to book</h4>
+      <label>
+        <select placeholder="Select" #mySelect (change)="sessionChange($event)">
+          <option value="-1">Select a session</option>
+          <option *ngFor="let lt of bs.sessions" value="{{lt.sessionId}}">{{lt.sessionDate | date:'EEEE yyyy-MM-dd'}}</option>
+        </select>
+      </label>
+      <div *ngIf="_session">
+        The selected session is on:<br/>
+        <b>{{_session.sessionDate | date:'EEEE yyyy-MM-dd'}}</b><br />
+        From <b>{{_session.startTime | slice : 0 : 5}}</b> to <b>{{ _session.endTime | slice : 0 : 5 }}</b>.<br />
+        Max bookings at a tme: {{_session.capacity}}<br />
+        <div>
+          <h4>Other bookings</h4>
+          <table>
+            <tr>
+              <th>Member</th><th>Entering</th><th>Leaving</th>
+            </tr>
+            <tr *ngIf="_session.bookings == null || _session.bookings.length==0"><td>None</td></tr>
+            <tr *ngFor="let bkng of _session.bookings">
+              <td>{{bkng.memberNumber}}</td>
+              <td>{{bkng.startTime | slice : 0 : 5}}</td>
+              <td>{{bkng.endTime | slice : 0 : 5}}</td>
+            </tr>
+          </table>
+          
+        </div>
+        <form [formGroup]='_bookingForm' (ngSubmit)="onBookingFormSubmit()">
+          <div class="row">
+            <div>
+              <label>Name or Member Number</label>
+            </div>
+            <div>
+              <input type="text" formControlName="memberNumber" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label>Arrive Time</label>
+            </div>
+            <div class="col-75">
+              <input type="time" formControlName="startTime" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label>Leave Time</label>
+            </div>
+            <div class="col-75">
+              <input type="time" formControlName="endTime" />
+            </div>
+          </div>
+          <div *ngIf=_failMessage class="formfail">{{_failMessage}}</div>        
+          <button type="submit" [disabled]="!_bookingForm.valid || _session.bookings.length >= _session.capacity ">Save</button>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="_booking != null">
+      <h4>Booking Successfull</h4>
+      <table>
+        <tr>
+          <td><b>Member:</b></td><td>{{_booking.memberNumber}}</td>
+        </tr>
+        <tr>
+          <td><b>Session Date:</b></td>
+          <td>{{_session.sessionDate | date:'EEEE'}}<br/>{{_session.sessionDate | date:'yyyy-MM-dd'}}</td>
+        </tr>
+        <tr>
+          <td><b>Arrive Time:</b></td><td>{{_booking.startTime | slice : 0 : 5}}</td>
+        </tr>
+        <tr>
+          <td><b>Leave by:</b></td><td>{{_booking.endTime | slice : 0 : 5}}</td>
+        </tr>
+      </table>
+      <button (click)="onFinishClick()">Finish</button>
+    </div>
+  </div>
+</div>

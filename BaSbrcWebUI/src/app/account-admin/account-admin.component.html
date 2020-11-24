@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="container">
+    <h3>Bon Accord Book</h3>
+    <div *ngIf="_changePassword==false">
+      <form [formGroup]='_userForm' (ngSubmit)="onUserSubmit()">
+          <label>
+            Username
+            <input type="text" readonly formControlName="username" />
+          </label>
+          <button class="passwordbutton" (click)="_changePassword=true;">Change Password</button><br />
+          <label>
+              Name
+              <input type="text" formControlName="firstName" />
+            </label><br />
+            <label>
+              Surname
+              <input type="text" formControlName="lastName" />
+            </label><br />
+            <label>
+              Role
+              <input type="text" readonly formControlName="userRole" />
+            </label><br />
+            <button (click)="cancel()">Cancel</button>
+          <button type="submit" [disabled]="!_userForm.valid">Save</button>
+      </form>
+    </div>
+    <div *ngIf="_changePassword==true">
+      <form [formGroup]='_passwordForm' (ngSubmit)="onPasswordSubmit()">
+          <label>
+          Select user
+          <select placeholder="Select" formControlName="id" [value]="_currentUser.id" >
+            <option *ngFor="let lt of _userList" value="{{lt.id}}">{{lt.username}}</option>
+          </select>
+          </label><br />
+          <label>
+            Current password
+            <input type="password" formControlName="oldPassword" />
+          </label><br />
+          <label>
+            New password
+            <input type="password" formControlName="newPassword1" />
+          </label><br />
+          <label>
+            Repeat new password
+            <input type="password" formControlName="newPassword2" />
+          </label><br />
+          <button (click)="cancelPasswordForm()">Cancel</button>
+          <button type="submit" [disabled]="!_passwordForm.valid">Change</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+@import '../app.component';
+
+.card {
+    width: 720px;
+    h3 {
+        font-size: xx-large;
+        font-weight: bold;
+        margin: 10px 0px 10px 0px ;
+    }
+}
+
+a {
+    color: blue;
+    text-decoration: underline;
+    &:hover { cursor: pointer; }
+}
+
+table {
+    td{
+        padding: 3px 10px 3px 10px;
+    }
+}

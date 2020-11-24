@@ -1,0 +1,95 @@
+@import "../styles.scss";
+
+.card {
+    /* Add shadows to create the "card" effect */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 10px;
+    width: 350px;
+    margin: auto;
+    background-color: white;
+
+    h4{
+        font-size: large;
+        font-weight: bold;
+        margin: 10px 0px 10px 0px ;
+    }
+
+    .container {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+      
+    .col-25 {
+        float: left;
+        width: 100px;
+        margin-top: 6px;
+    }
+      
+    .col-75 {
+        float: left;
+        margin-top: 6px;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+input {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+label {
+    padding: 7px 7px 7px 0;
+    display: inline-block;
+}      
+
+button {
+    margin: 10px 0 0 0;
+    padding: 10px 20px;
+    background-color: $buttonActiveColor;
+    border: 1px solid #ddd;
+    color: $buttonTextColor;
+    cursor: pointer;
+    &:disabled {
+        background-color: $buttonDisableColor;            
+    }
+    &:hover:enabled {
+        background-color: $buttonHoverColor;            
+    }
+}
+
+table {
+    background-color: whitesmoke;
+
+    td, th {
+        border: 1px solid #ddd;
+        padding: 3px;
+      }
+    th {
+        background-color: grey;
+    }
+      
+    tr {
+        border-collapse: collapse;
+        width: 100%;
+        background-color: rgb(180, 180, 180);
+
+        &:nth-child(even){background-color: rgb(200, 200, 200);}
+    }
+
+}
+
+.formfail {
+    color: red;
+    font-size: small;
+}

@@ -1,0 +1,49 @@
+<div class="card">
+    <div class="container">
+      <h3>Bon Accord Sessions</h3>
+      <div *ngIf="!_session">
+        <h4>Sessions</h4>
+        <a (click)="showAll()">Show {{_showAll}}</a>
+        <div><table>
+          <tr><th>ID</th><th>Day</th><th>Date</th><th>Start<br/>Time</th><th>End<br/>Time</th></tr>
+          <tr *ngFor="let lt of bs.sessions" >
+            <td>{{lt.sessionId}}</td>
+            <td>{{lt.sessionDate | date:'EEEE'}}</td>
+            <td>{{lt.sessionDate | date:'yyyy-MM-dd'}}</td>
+            <td>{{lt.startTime | slice : 0 : 5}}</td>
+            <td>{{lt.endTime | slice : 0 : 5}}</td>
+            <td>
+              <button (click)='viewSession(lt)'>View</button>
+              <button (click)='deleteSession(lt)'>Delete</button>
+            </td>
+          </tr>
+        </table></div>
+      </div>
+  
+      <div *ngIf="_session" >
+        <h4>
+          Bookings for session <br/> 
+          {{_session.sessionDate | date:'EEEE yyyy-MM-dd'}} from 
+          {{_session.startTime | slice : 0 : 5}} to {{_session.endTime | slice : 0 : 5}}
+        </h4>
+        <table>
+          <tr>
+            <th>Member Number</th><th>Arrival Time</th><th>Leaving time</th>
+          </tr>
+          <tr *ngFor="let bkng of _session.bookings">
+            <td>{{bkng.memberNumber}}</td>
+            <td>{{bkng.startTime | slice : 0 : 5}}</td>
+            <td>{{bkng.endTime | slice : 0 : 5}}</td>
+            <td>
+                <button (click)='deletebooking(bkng)'>Delete</button>
+            </td>
+            </tr>
+        </table>
+        <button (click)="_session=null">Back</button>
+      </div>
+  
+  
+    </div>
+  </div>
+  
+  
