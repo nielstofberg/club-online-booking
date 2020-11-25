@@ -13,6 +13,6 @@ export class AppComponent {
 
   @HostListener('window:beforeunload', [ '$event' ])
   beforeUnloadHandler(event) {
-    this.authService.logout();
+    //this.authService.logout();
   }
 }

@@ -28,6 +28,14 @@ export class BookingService {
 		return this.http.get<Session>(this.baseUrl + 'api/Sessions/' + id);
 	}
 
+	addSession(s: Session) : Observable<Session> {
+		return this.http.post<Session>(this.baseUrl + 'api/Sessions/', s);
+	}
+
+	updateSession(id: number, s: Session) : Observable<Session> {
+		return this.http.put<Session>(this.baseUrl + 'api/Sessions/' + id, s);
+	}
+
 	deleteSession(id: number): Observable<any> {
 		return this.http.delete(this.baseUrl + 'api/Sessions/' + id);
 	}

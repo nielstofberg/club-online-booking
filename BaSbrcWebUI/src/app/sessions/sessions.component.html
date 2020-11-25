@@ -3,8 +3,9 @@
       <h3>Bon Accord Sessions</h3>
       <div *ngIf="!_session">
         <h4>Sessions</h4>
-        <a (click)="showAll()">Show {{_showAll}}</a>
-        <div><table>
+        <a (click)="showAll()">Show {{_showAll}}</a> | 
+        <a (click)="newSession()">New Session</a>
+        <div *ngIf="!_newSession && ! _editSession"><table>
           <tr><th>ID</th><th>Day</th><th>Date</th><th>Start<br/>Time</th><th>End<br/>Time</th></tr>
           <tr *ngFor="let lt of bs.sessions" >
             <td>{{lt.sessionId}}</td>
@@ -14,13 +15,14 @@
             <td>{{lt.endTime | slice : 0 : 5}}</td>
             <td>
               <button (click)='viewSession(lt)'>View</button>
+              <button (click)='editSession(lt)'>Edit</button>
               <button (click)='deleteSession(lt)'>Delete</button>
             </td>
           </tr>
         </table></div>
       </div>
   
-      <div *ngIf="_session" >
+      <div *ngIf="_session && !_editSession" >
         <h4>
           Bookings for session <br/> 
           {{_session.sessionDate | date:'EEEE yyyy-MM-dd'}} from 
@@ -41,8 +43,55 @@
         </table>
         <button (click)="_session=null">Back</button>
       </div>
-  
-  
+
+      <div *ngIf="_newSession || _editSession">
+        <h4 *ngIf="_newSession">New Session</h4>
+        <h4 *ngIf="_editSession">Edit Session</h4>
+        <form [formGroup]='_sessionForm' (ngSubmit)="onSessionFormSubmit()">
+          <div class="row">
+            <div  class="col-25">
+              <label>Session date</label>
+            </div>
+            <div class="col-75">
+              <input type="date" formControlName="sessionDate" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label>Start Time</label>
+            </div>
+            <div class="col-75">
+              <input type="time" formControlName="startTime" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label>End Time</label>
+            </div>
+            <div class="col-75">
+              <input type="time" formControlName="endTime" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label>Capacity</label>
+            </div>
+            <div class="col-75">
+              <input type="number" max="20" formControlName="capacity" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label>Range Officer</label>
+            </div>
+            <div class="col-75">
+              <input type="text" formControlName="rangeOfficer" />
+            </div>
+          </div>
+          <button (click)="_newSession=false; _editSession=false; _session=null" >Cancel</button>
+          <button type="submit" [disabled]="!_sessionForm.valid">Save</button>
+        </form>
+      </div>
     </div>
   </div>
   

@@ -7,5 +7,7 @@ export interface Session {
   startTime: string;
   endTime: string;
   capacity: number;
+  rangeOfficer: string;
+  roId: number;
   bookings: Booking[]
 }

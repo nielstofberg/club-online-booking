@@ -52,7 +52,7 @@ export class BookingNewComponent {
     this.bs.getSession(id).subscribe(result => {
       this._session = result;
       this._bookingForm.patchValue({
-        'sessionId':id, 
+        'sessionId': id, 
         'startTime': result.startTime,
         'endTime': result.endTime
       });

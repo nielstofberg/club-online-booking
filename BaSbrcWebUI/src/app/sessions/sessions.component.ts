@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Booking } from '../_models/booking';
 import { Session } from '../_models/session';
 import { User } from '../_models/user';
@@ -11,9 +12,24 @@ import { BookingService } from '../_services/booking.service';
 })
 export class SessionsComponent implements OnInit {
   _showAll = "All";
+  _newSession : boolean = false;
+  _editSession: boolean = false;
   _session: Session;
 
-  constructor(public bs: BookingService) {
+  _sessionForm = this.fb.group({
+    sessionId: [0],
+    location: ['25Yrd', Validators.required],
+    sessionDate: ['', Validators.required],
+    startTime: ['', Validators.required],
+    endTime: ['', Validators.required],
+    capacity: [4, Validators.required],
+    rangeOfficer: [''],
+    roId: [0],
+    bookings: ['']
+  });
+
+  constructor(public bs: BookingService,
+    private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -69,6 +85,58 @@ export class SessionsComponent implements OnInit {
     if (confirm('Are you sure you want to delete the booking for ' + booking.memberNumber).valueOf()){
       this.bs.deleteBooking(booking.bookingId).subscribe(() => {}, 
         err =>{ alert(err); });
+    }
+  }
+
+  newSession() {
+    this._newSession=true;
+    this._sessionForm.setValue({
+      sessionId: 0,
+      location: '25Yrd',
+      sessionDate: '',
+      startTime: '',
+      endTime: '',
+      capacity: 4,
+      rangeOfficer: '',
+      roId: 0,
+      bookings: ''  
+    });
+  }
+
+  editSession(s : Session){
+    let sd = s.sessionDate.toString().substr(0,10);
+    this._editSession = true;
+    this._session = s;
+    this._sessionForm.setValue(s);
+    this._sessionForm.patchValue({'sessionDate': sd})
+  }
+
+  onSessionFormSubmit() {
+    if (this._sessionForm.valid) {
+      if (this._sessionForm.dirty) {
+        if (this._newSession) {
+          // Add a new session
+          let ns: Session = this._sessionForm.value;
+          this.bs.addSession(ns).subscribe(() => {
+            console.log("Session Added");
+            // Flip the value because showAll() flips it again.
+            this._showAll = (this._showAll == 'All') ? 'Future only': 'All';
+            this.showAll();
+          });
+        } else {
+          //Editing a session
+          let ns: Session = this._sessionForm.value;
+          this.bs.updateSession(ns.sessionId, ns).subscribe(() => {
+            console.log("Session Updated");
+            // Flip the value because showAll() flips it again.
+            this._showAll = (this._showAll == 'All') ? 'Future only': 'All';
+            this.showAll();
+          });
+        }
+      }
+      this._session = null;
+      this._editSession = false;
+      this._newSession = false;  
     }
   }
 }
