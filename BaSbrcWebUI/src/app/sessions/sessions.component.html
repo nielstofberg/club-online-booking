@@ -6,13 +6,14 @@
         <a (click)="showAll()">Show {{_showAll}}</a> | 
         <a (click)="newSession()">New Session</a>
         <div *ngIf="!_newSession && ! _editSession"><table>
-          <tr><th>ID</th><th>Day</th><th>Date</th><th>Start<br/>Time</th><th>End<br/>Time</th></tr>
+          <tr><th>ID</th><th>Day</th><th>Date</th><th>Start<br/>Time</th><th>End<br/>Time</th><th>RO</th></tr>
           <tr *ngFor="let lt of bs.sessions" >
             <td>{{lt.sessionId}}</td>
             <td>{{lt.sessionDate | date:'EEEE'}}</td>
             <td>{{lt.sessionDate | date:'yyyy-MM-dd'}}</td>
             <td>{{lt.startTime | slice : 0 : 5}}</td>
             <td>{{lt.endTime | slice : 0 : 5}}</td>
+            <td>{{lt.rangeOfficer}}</td>
             <td>
               <button (click)='viewSession(lt)'>View</button>
               <button (click)='editSession(lt)'>Edit</button>
@@ -26,7 +27,9 @@
         <h4>
           Bookings for session <br/> 
           {{_session.sessionDate | date:'EEEE yyyy-MM-dd'}} from 
-          {{_session.startTime | slice : 0 : 5}} to {{_session.endTime | slice : 0 : 5}}
+          {{_session.startTime | slice : 0 : 5}} to {{_session.endTime | slice : 0 : 5}}<br/>
+          Capacity: {{_session.capacity}}<br/>
+          Range Officer: {{_session.rangeOfficer}}
         </h4>
         <table>
           <tr>
