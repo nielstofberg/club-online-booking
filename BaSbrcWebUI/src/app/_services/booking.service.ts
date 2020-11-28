@@ -15,12 +15,12 @@ export class BookingService {
 		@Inject('BASE_URL') private baseUrl: string) {
 	}
 
-	getSessons(all=false): Observable<any> {
+	getSessons(all=false): Observable<Session[]> {
 		if (all) {
-			return this.http.get<any>(this.baseUrl + 'api/Sessions?all=true');
+			return this.http.get<Session[]>(this.baseUrl + 'api/Sessions?all=true');
 		}
 		else {
-			return this.http.get<any>(this.baseUrl + 'api/Sessions');
+			return this.http.get<Session[]>(this.baseUrl + 'api/Sessions');
 		}
 	}
 

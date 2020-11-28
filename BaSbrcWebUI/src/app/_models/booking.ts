@@ -5,6 +5,4 @@ export interface Booking {
 	memberNumber: string;
 	sessionId: number;
 	session: Session;
-	startTime: string;
-	endTime: string;
 }

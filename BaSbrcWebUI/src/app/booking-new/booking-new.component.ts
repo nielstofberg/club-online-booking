@@ -15,6 +15,7 @@ import { Timestamp } from 'rxjs/internal/operators/timestamp';
 })
 export class BookingNewComponent {
   public currentCount = 0;
+  _sessions: Session[];
   _session: Session;
   _booking: Booking;
   _failMessage: string = null;
@@ -23,9 +24,7 @@ export class BookingNewComponent {
     sessionId: [''],
     bookingId: [0],
     memberNumber: ['', Validators.required],
-    startTime: ['', Validators.required],
-    endTime: ['', Validators.required]
-  });
+ });
 
   constructor(public bs: BookingService,
     private fb: FormBuilder,
@@ -34,7 +33,7 @@ export class BookingNewComponent {
 
   ngOnInit(): void {
     this.bs.getSessons().subscribe(result => {
-      this.bs.sessions = result;
+      this._sessions = result.filter(s=> s.rangeOfficer);
     });
   }
 
@@ -63,17 +62,6 @@ export class BookingNewComponent {
     if (this._bookingForm.valid) {
       if (this._session != null && this._bookingForm.dirty) {
         var booking: Booking = this._bookingForm.value;
-        if (booking.endTime<booking.startTime) {
-          this._failMessage = "Invalid times"
-          return;
-        }
-       if (this.getTimeStamp(booking.startTime) < this.getTimeStamp(this._session.startTime) ||
-            this.getTimeStamp(booking.endTime) > this.getTimeStamp(this._session.endTime)) {
-              this._failMessage = "Times outwith the selected session."
-              return;    
-        }
-
-          
 
         booking.sessionId = this._session.sessionId;
         this.bs.addBooking(booking).subscribe(r => {
