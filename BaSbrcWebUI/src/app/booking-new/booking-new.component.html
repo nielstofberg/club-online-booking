@@ -6,7 +6,9 @@
       <label>
         <select placeholder="Select" #mySelect (change)="sessionChange($event)">
           <option value="-1">Select a session</option>
-          <option *ngFor="let lt of this._sessions" value="{{lt.sessionId}}">{{lt.sessionDate | date:'EEEE yyyy-MM-dd'}}</option>
+          <option *ngFor="let lt of this._sessions" value="{{lt.sessionId}}">
+            {{lt.sessionDate | date:'EEEE yyyy-MM-dd'}} {{lt.startTime | slice : 0 : 5}} {{lt.location}}
+          </option>
         </select>
       </label>
       <div *ngIf="_session">
@@ -26,27 +28,39 @@
               <td>{{bkng.memberNumber}}</td>
             </tr>
           </table>
-          
         </div>
-        <form [formGroup]='_bookingForm' (ngSubmit)="onBookingFormSubmit()">
-          <div class="row">
-            <div>
-              <label>Name or Member Number</label>
+        <h4  *ngIf="_session.bookings.length >= _session.capacity" style="color: red;" >This Session is fully booked</h4>
+        <div *ngIf="_session.bookings.length < _session.capacity">
+          <form [formGroup]='_bookingForm' (ngSubmit)="onBookingFormSubmit()">
+            <div class="row">
+              <div>
+                <label>Name or Member Number</label>
+              </div>
+              <div>
+                <input type="text" formControlName="memberNumber" />
+              </div>
             </div>
-            <div>
-              <input type="text" formControlName="memberNumber" />
-            </div>
-          </div>
-          <div *ngIf=_failMessage class="formfail">{{_failMessage}}</div>        
-          <button type="submit" [disabled]="!_bookingForm.valid || _session.bookings.length >= _session.capacity ">Save</button>
-        </form>
+            <div *ngIf=_failMessage class="formfail">{{_failMessage}}</div>        
+            <button type="submit" [disabled]="!_bookingForm.valid || _session.bookings.length >= _session.capacity ">Save</button>
+          </form>
+        </div>
       </div>
     </div>
     <div *ngIf="_booking != null">
-      <h4>Booking Successfull</h4>
+      <h4>Booking Successful</h4>
       <table>
         <tr>
           <td><b>Member:</b></td><td>{{_booking.memberNumber}}</td>
+        </tr>
+        <tr>
+          <td><b>Location / Range:</b></td>
+          <td>
+            <select placeholder="Select" [value]="_session.location" disabled >
+              <option value="Indoor">Indoor</option>
+              <option value="100yrd">Outdoor 100yrd Range</option>
+              <option value="50m">Outdoor 50m Range</option>
+            </select>
+          </td>
         </tr>
         <tr>
           <td><b>Session Date:</b></td>
