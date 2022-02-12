@@ -95,7 +95,7 @@ namespace WebApi.Services
                 _context.SaveChanges();
                 return User.Copy(user); // Make a copy and get rid of the password before returning the userser
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return null;
             }

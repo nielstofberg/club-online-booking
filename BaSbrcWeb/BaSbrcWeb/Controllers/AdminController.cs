@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 
 namespace BaSbrcWeb.Controllers
 {
@@ -13,9 +14,9 @@ namespace BaSbrcWeb.Controllers
     [Route("api/[controller]")]
     public class AdminController : Controller
     {
-        IApplicationLifetime applicationLifetime;
+        IHostApplicationLifetime applicationLifetime;
 
-        public AdminController(IApplicationLifetime appLifetime)
+        public AdminController(IHostApplicationLifetime appLifetime)
         {
             applicationLifetime = appLifetime;
         }

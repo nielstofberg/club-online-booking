@@ -17,7 +17,6 @@ namespace Basbrc.Controllers
     public class SessionsController : ControllerBase
     {
         private readonly DataContext _context;
-        private IComparer<DateTime> cmp;
 
         public SessionsController(DataContext context)
         {
@@ -43,7 +42,7 @@ namespace Basbrc.Controllers
                 else
                 {
                     retVal = await _context.Session
-                        .Where(s=> s.SessionDate >= DateTime.Today.AddMilliseconds(-DateTime.Today.TimeOfDay.TotalMilliseconds))
+                        .Where(s => s.SessionDate >= DateTime.Today)
                         .OrderBy(s => s.SessionDate)
                         .Include(s => s.Bookings)
                         .ToListAsync();
@@ -55,7 +54,7 @@ namespace Basbrc.Controllers
                         .Include(s => s.Bookings)
                         .ToListAsync();
                 }
-                return retVal;
+                return Ok(retVal);
                 //return new Session[3];
             }
             catch (Exception ex)
