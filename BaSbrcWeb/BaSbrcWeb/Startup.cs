@@ -38,12 +38,6 @@ namespace Basbrc
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
-            /*
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
-                // This allows nested classes to be returned in JSON format
-                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            */
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -65,20 +59,6 @@ namespace Basbrc
                 app.UseHsts();
             }
 
-            /*
-            // Locally this code makes the default url point to ./ClientApp/dist/index.html, 
-            // but on the production server it points to "./wwwwroot/index.html
-            app.Use(async (context, next) =>
-            {
-                await next();
-                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
-                {
-                    context.Request.Path = "/index.html";
-                    await next();
-                }
-            });
-            */
-
 #if !DEBUG
             app.UseHttpsRedirection();
 #endif
@@ -90,8 +70,6 @@ namespace Basbrc
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-                //.AllowCredentials());
-
 
             app.UseRouting();
 
@@ -105,8 +83,6 @@ namespace Basbrc
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
-
-            //app.UseMvc();
         }
     }
 }
